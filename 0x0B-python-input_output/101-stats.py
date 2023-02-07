@@ -1,55 +1,27 @@
 #!/usr/bin/python3
-""" Module to print status code """
+"""A representation of a Student class"""
 
 
-import sys
+class Student:
+    """Class that defines Student"""
 
+    def __init__(self, first_name, last_name, age):
+        self.first_name = first_name
+        self.last_name = last_name
+        self.age = age
 
-def print_info():
-    print('File size: {:d}'.format(file_size))
+    def to_json(self, attrs=None):
+        if type(attrs) is list:
+            dict = {}
+            for attr in attrs:
+                if type(attr) is not str:
+                    return self.__dict__
+            for attr in attrs:
+                if attr in self.__dict__.keys():
+                    dict[attr] = self.__dict__[attr]
+            return dict
+        return self.__dict__
 
-    for scode, code_times in sorted(status_codes.items()):
-        if code_times > 0:
-            print('{}: {:d}'.format(scode, code_times))
-
-
-status_codes = {
-    '200': 0,
-    '301': 0,
-    '400': 0,
-    '401': 0,
-    '403': 0,
-    '404': 0,
-    '405': 0,
-    '500': 0
-}
-
-lc = 0
-file_size = 0
-
-try:
-    for line in sys.stdin:
-        if lc != 0 and lc % 10 == 0:
-            print_info()
-
-        pieces = line.split()
-
-        try:
-            status = int(pieces[-2])
-
-            if str(status) in status_codes.keys():
-                status_codes[str(status)] += 1
-        except Exception:
-            pass
-
-        try:
-            file_size += int(pieces[-1])
-        except Exception:
-            pass
-
-        lc += 1
-
-    print_info()
-except KeyboardInterrupt:
-    print_info()
-    raise
+    def reload_from_json(self, json):
+        for k, v in json.items():
+            setattr(self, k, v)
