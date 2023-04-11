@@ -1,1 +1,1 @@
- Python Inheritance 
+javaScript warm up
