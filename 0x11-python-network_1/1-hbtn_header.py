@@ -1,16 +1,16 @@
 #!/usr/bin/python3
-"""A script that
-- fetches https://alx-intranet.hbtn.io/status.
-- uses urlib package
 """
-
+    displays the value of the X-Request-Id variable
+    found in the header of the response
+"""
+import urllib.request
+import sys
 
 if __name__ == '__main__':
-    import urllib.request
-
-    with urllib.request.urlopen('https://alx-intranet.hbtn.io/status') as res:
-        content = res.read()
-        print("Body response:")
-        print("\t- type: {}".format(type(content)))
-        print("\t- content: {}".format(content))
-        print("\t- utf8 content: {}".format(content.decode('utf-8')))
+    try:
+        with urllib.request.urlopen(sys.argv[1]) as response:
+            if response:
+                value = response.headers.get('X-Request-Id')
+                print(value)
+    except BaseException:
+        pass
